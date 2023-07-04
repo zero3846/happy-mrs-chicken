@@ -6,9 +6,64 @@
 
 body {
     background-color: cornflowerblue;
+    color: #ee8;
+    font-size: 30pt;
 }
 
 #content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100vw;
     height: 100vh;
+}
+
+#upper-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvas {
+    z-index: 1;
+}
+
+#score-label {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    z-index: 2;
+}
+
+#time-left-label {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    z-index: 2;
+}
+
+#new-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#new-game h1 {
+    margin-bottom: 1em;
+    width: 50%;
+    text-align: center;
+}
+
+#new-game-button {
+    z-index: 2;
+    border: 5px solid darkcyan;
+    color: darkcyan;
+    font-weight: 600;
+    font-size: 30pt;
+    padding: 1em 2em;
 }
