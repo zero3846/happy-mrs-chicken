@@ -2,12 +2,14 @@ let canvas;
 let ctx;
 
 const initGameOverTime_secs = 15;
-const chickenRadius = 50;
+const chickenRadius = 100;
 const eggRadius = 30;
 const bonusRadius = 30;
 const bonusFreq_secs = 5;
 const bonusExpire_secs = 2;
 const bonusExtension_secs = 5;
+
+let chickenImage;
 
 let state = "new-game";
 let score = 0;
@@ -31,6 +33,9 @@ function init() {
     ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+
+    chickenImage = new Image(2 * chickenRadius, 2 * chickenRadius);
+    chickenImage.src = "images/chicken.png";
 
     const newGameButton = document.querySelector('#new-game-button');
     newGameButton.addEventListener('click', newGameButtonClicked);
@@ -78,50 +83,68 @@ function draw() {
 }
 
 function drawChicken(chicken) {
-    ctx.lineWidth = 3;
-    ctx.fillStyle = 'yellow';
-    ctx.strokeStyle = 'gray';
-
-    ctx.beginPath();
-    ctx.arc(chicken.x, chicken.y, chickenRadius - ctx.lineWidth / 2, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(chicken.x, chicken.y, chickenRadius, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.stroke();
+    ctx.drawImage(chickenImage,
+        chicken.x - chickenRadius, chicken.y - chickenRadius,
+        chickenImage.width, chickenImage.height);
 }
 
 function drawEgg(egg) {
-    ctx.lineWidth = 3;
-    ctx.fillStyle = 'lightgoldenrodyellow';
+    const eggRadiusLong = 1.5 * eggRadius;
+
+    ctx.beginPath();
+    ctx.arc(egg.x, egg.y, eggRadius, 0, Math.PI);
+    ctx.ellipse(egg.x, egg.y, eggRadius, eggRadiusLong, 0, Math.PI, 2 * Math.PI);
+
+    ctx.lineWidth = 6;
     ctx.strokeStyle = 'gray';
-
-    ctx.beginPath();
-    ctx.arc(egg.x, egg.y, eggRadius - ctx.lineWidth / 2, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(egg.x, egg.y, eggRadius, 0, Math.PI * 2);
-    ctx.closePath();
     ctx.stroke();
+
+    ctx.fillStyle = 'lightgoldenrodyellow';
+    ctx.fill();
 }
 
 function drawBonus(bonus) {
-    ctx.lineWidth = 3;
-    ctx.fillStyle = 'darkred';
-    ctx.strokeStyle = '#500';
+    const clockFaceRadius = 0.7 * bonusRadius;
+    const clockRadius = 0.9 * bonusRadius;
+    const handWidth = 0.15 * bonusRadius;
+    const hourHandLength = 0.4 * bonusRadius;
+    const minuteHandLength = 0.5 * bonusRadius;
+    const plusOffset = 0.2;
+    const plusX = bonus.x + (1 - plusOffset) * bonusRadius;
+    const plusY = bonus.y - (1 - plusOffset) * bonusRadius;
+    const plusRadius = 0.2 * bonusRadius;
 
     ctx.beginPath();
-    ctx.arc(bonus.x, bonus.y, bonusRadius - ctx.lineWidth / 2, 0, Math.PI * 2);
-    ctx.closePath();
+    ctx.arc(bonus.x, bonus.y, clockRadius, 0, Math.PI * 2);
+
+    ctx.fillStyle = 'darkred';
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(bonus.x, bonus.y, bonusRadius, 0, Math.PI * 2);
-    ctx.closePath();
+    ctx.arc(bonus.x, bonus.y, clockFaceRadius, 0, Math.PI * 2);
+
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(bonus.x, bonus.y - minuteHandLength);
+    ctx.lineTo(bonus.x, bonus.y);
+    ctx.lineTo(bonus.x + hourHandLength, bonus.y);
+
+    ctx.lineWidth = handWidth;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(plusX - plusRadius, plusY);
+    ctx.lineTo(plusX + plusRadius, plusY);
+    ctx.moveTo(plusX, plusY - plusRadius);
+    ctx.lineTo(plusX, plusY + plusRadius);
+
+    ctx.lineWidth = handWidth;
+    ctx.lineCap = 'butt';
+    ctx.strokeStyle = 'green';
     ctx.stroke();
 }
 
