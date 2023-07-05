@@ -2,20 +2,21 @@ let canvas;
 let ctx;
 
 const initGameOverTime_secs = 5;
+const eggRadius = 30;
 
 let state = "new-game";
 let score = 0;
 let startTime_msecs = 0;
 let gameOverTime_msecs = 0;
 let timeLeft_secs = 0;
-const chicken = {
+let chicken = {
     x: 0,
     y: 0,
     radius: 50,
     hit: false
 };
-const eggs = [];
-const bonuses = [];
+let eggs = [];
+let bonuses = [];
 
 function init() {
     canvas = document.querySelector('#canvas');
@@ -80,7 +81,7 @@ function drawChicken(chicken) {
 
 function drawEgg(egg) {
     ctx.beginPath();
-    ctx.arc(egg.x, egg.y, egg.radius, 0, Math.PI * 2);
+    ctx.arc(egg.x, egg.y, eggRadius, 0, Math.PI * 2);
     ctx.fillStyle = 'lightgoldenrodyellow';
     ctx.fill();
     ctx.closePath();
@@ -115,6 +116,8 @@ function handleClick(e) {
     }
 
     ++score;
+    layEgg();
+    moveChicken();
 }
 
 function newGameButtonClicked(e) {
@@ -125,6 +128,26 @@ function newGameButtonClicked(e) {
     score = 0;
     startTime_msecs = Date.now();
     gameOverTime_msecs = initGameOverTime_secs * 1000;
+    eggs = [];
+    bonuses = [];
+    moveChicken();
+}
+
+function moveChicken() {
+    chicken.x = Math.floor(random(chicken.radius, canvas.width - chicken.radius));
+    chicken.y = Math.floor(random(chicken.radius, canvas.height - chicken.radius));
+}
+
+function layEgg() {
+    const egg = {
+        x: chicken.x,
+        y: chicken.y
+    }
+    eggs.push(egg);
+}
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
 }
 
 init();
