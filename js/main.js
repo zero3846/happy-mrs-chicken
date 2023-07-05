@@ -1,19 +1,22 @@
 let canvas;
 let ctx;
 
-const initGameOverTime_secs = 5;
+const initGameOverTime_secs = 15;
+const chickenRadius = 50;
 const eggRadius = 30;
+const bonusRadius = 30;
+const bonusFreq_secs = 5;
+const bonusExpire_secs = 3;
 
 let state = "new-game";
 let score = 0;
 let startTime_msecs = 0;
 let gameOverTime_msecs = 0;
 let timeLeft_secs = 0;
+let nextBonus_msecs = 0;
 let chicken = {
     x: 0,
-    y: 0,
-    radius: 50,
-    hit: false
+    y: 0
 };
 let eggs = [];
 let bonuses = [];
@@ -73,7 +76,7 @@ function draw() {
 
 function drawChicken(chicken) {
     ctx.beginPath();
-    ctx.arc(chicken.x, chicken.y, chicken.radius, 0, Math.PI * 2);
+    ctx.arc(chicken.x, chicken.y, chickenRadius, 0, Math.PI * 2);
     ctx.fillStyle = 'yellow';
     ctx.fill();
     ctx.closePath();
@@ -89,7 +92,7 @@ function drawEgg(egg) {
 
 function drawBonus(bonus) {
     ctx.beginPath();
-    ctx.arc(bonus.x, bonus.y, bonus.radius, 0, Math.PI * 2);
+    ctx.arc(bonus.x, bonus.y, bonusRadius, 0, Math.PI * 2);
     ctx.fillStyle = 'darkred';
     ctx.fill();
     ctx.closePath();
@@ -99,6 +102,8 @@ function update() {
     if (state === 'game-started') {
         const elapsed_msecs = Date.now() - startTime_msecs;
         timeLeft_secs = (gameOverTime_msecs - elapsed_msecs) / 1000;
+
+        updateBonuses(elapsed_msecs);
 
         if (elapsed_msecs >= gameOverTime_msecs) {
             state = 'game-over';
@@ -130,12 +135,13 @@ function newGameButtonClicked(e) {
     gameOverTime_msecs = initGameOverTime_secs * 1000;
     eggs = [];
     bonuses = [];
+    nextBonus_msecs = startTime_msecs + bonusFreq_secs * 1000;
     moveChicken();
 }
 
 function moveChicken() {
-    chicken.x = Math.floor(random(chicken.radius, canvas.width - chicken.radius));
-    chicken.y = Math.floor(random(chicken.radius, canvas.height - chicken.radius));
+    chicken.x = Math.floor(random(chickenRadius, canvas.width - chickenRadius));
+    chicken.y = Math.floor(random(chickenRadius, canvas.height - chickenRadius));
 }
 
 function layEgg() {
@@ -144,6 +150,19 @@ function layEgg() {
         y: chicken.y
     }
     eggs.push(egg);
+}
+
+function updateBonuses(elapsed_msecs) {
+    bonuses = bonuses.filter(b => b.expire_msecs > startTime_msecs + elapsed_msecs);
+    if (nextBonus_msecs <= startTime_msecs + elapsed_msecs) {
+        const bonus = {
+            x: Math.floor(random(bonusRadius, canvas.width - bonusRadius)),
+            y: Math.floor(random(bonusRadius, canvas.height - bonusRadius)),
+            expire_msecs: startTime_msecs + elapsed_msecs + bonusExpire_secs * 1000
+        }
+        bonuses.push(bonus);
+        nextBonus_msecs += bonusFreq_secs * 1000;
+    }
 }
 
 function random(min, max) {
