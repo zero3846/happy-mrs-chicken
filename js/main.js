@@ -29,6 +29,8 @@ function init() {
     canvas.addEventListener('click', handleClick);
 
     ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     const newGameButton = document.querySelector('#new-game-button');
     newGameButton.addEventListener('click', newGameButtonClicked);
@@ -76,29 +78,51 @@ function draw() {
 }
 
 function drawChicken(chicken) {
+    ctx.lineWidth = 3;
+    ctx.fillStyle = 'yellow';
+    ctx.strokeStyle = 'gray';
+
+    ctx.beginPath();
+    ctx.arc(chicken.x, chicken.y, chickenRadius - ctx.lineWidth / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
+
     ctx.beginPath();
     ctx.arc(chicken.x, chicken.y, chickenRadius, 0, Math.PI * 2);
-    ctx.fillStyle = 'yellow';
-    ctx.fill();
     ctx.closePath();
+    ctx.stroke();
 }
 
 function drawEgg(egg) {
-    ctx.beginPath();
-    ctx.arc(egg.x, egg.y, eggRadius, 0, Math.PI * 2);
+    ctx.lineWidth = 3;
     ctx.fillStyle = 'lightgoldenrodyellow';
     ctx.strokeStyle = 'gray';
-    ctx.fill();
-    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(egg.x, egg.y, eggRadius - ctx.lineWidth / 2, 0, Math.PI * 2);
     ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(egg.x, egg.y, eggRadius, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.stroke();
 }
 
 function drawBonus(bonus) {
+    ctx.lineWidth = 3;
+    ctx.fillStyle = 'darkred';
+    ctx.strokeStyle = '#500';
+
+    ctx.beginPath();
+    ctx.arc(bonus.x, bonus.y, bonusRadius - ctx.lineWidth / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
+
     ctx.beginPath();
     ctx.arc(bonus.x, bonus.y, bonusRadius, 0, Math.PI * 2);
-    ctx.fillStyle = 'darkred';
-    ctx.fill();
     ctx.closePath();
+    ctx.stroke();
 }
 
 function update() {
