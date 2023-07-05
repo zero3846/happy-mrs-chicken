@@ -38,6 +38,7 @@ body {
     top: 1em;
     left: 1em;
     z-index: 2;
+    user-select: none;
 }
 
 #time-left-label {
@@ -45,6 +46,7 @@ body {
     top: 1em;
     right: 1em;
     z-index: 2;
+    user-select: none;
 }
 
 #new-game {
