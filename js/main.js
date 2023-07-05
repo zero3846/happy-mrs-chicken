@@ -87,7 +87,9 @@ function drawEgg(egg) {
     ctx.beginPath();
     ctx.arc(egg.x, egg.y, eggRadius, 0, Math.PI * 2);
     ctx.fillStyle = 'lightgoldenrodyellow';
+    ctx.strokeStyle = 'gray';
     ctx.fill();
+    ctx.stroke();
     ctx.closePath();
 }
 
