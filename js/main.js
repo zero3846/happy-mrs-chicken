@@ -25,9 +25,11 @@ let eggs = [];
 let bonuses = [];
 
 function init() {
+    const contentElem = document.querySelector('#content');
+
     canvas = document.querySelector('#canvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = contentElem.clientWidth;
+    canvas.height = contentElem.clientHeight;
     canvas.addEventListener('click', handleClick);
 
     ctx = canvas.getContext('2d');

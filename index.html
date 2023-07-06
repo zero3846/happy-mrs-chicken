@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
+    <div id="header">
+        <p id="score-label" class="unselectable">Score: <span id="score">0</span></p>
+        <p id="time-left-label" class="unselectable">Time Left: <span id="time-left">0</span></p>
+    </div>
     <div id="content">
         <canvas id="canvas"></canvas>
         <div id="upper-layer">
-            <p id="score-label">Score: <span id="score">0</span></p>
-            <p id="time-left-label">Time Left: <span id="time-left">0</span></p>
             <div id="new-game">
                 <h1>Happy Mrs Chicken!</h1>
                 <button id="new-game-button">New Game</button>
