@@ -2,11 +2,11 @@ let canvas;
 let ctx;
 
 const initGameOverTime_secs = 15;
-const chickenRadius = 100;
+const chickenRadius = 80;
 const eggRadius = 30;
 const bonusRadius = 30;
 const bonusFreq_secs = 5;
-const bonusExpire_secs = 30;
+const bonusExpire_secs = 2;
 const bonusExtension_secs = 5;
 
 let chickenImage;
@@ -85,9 +85,15 @@ function draw() {
 }
 
 function drawChicken(chicken) {
+    // Adjustments needed for the chicken to roughly fit in the hit target area
+    const imageWidth = 2 * chickenRadius * 1.8;
+    const imageHeight = 2 * chickenRadius * 1.3;
+
     ctx.drawImage(chickenImage,
-        chicken.x - chickenRadius, chicken.y - chickenRadius,
-        chickenImage.width, chickenImage.height);
+        chicken.x - imageWidth / 2,
+        chicken.y - imageHeight / 2,
+        imageWidth,
+        imageHeight);
 }
 
 function drawEgg(egg) {
