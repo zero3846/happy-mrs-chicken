@@ -6,7 +6,7 @@ const chickenRadius = 100;
 const eggRadius = 30;
 const bonusRadius = 30;
 const bonusFreq_secs = 5;
-const bonusExpire_secs = 2;
+const bonusExpire_secs = 30;
 const bonusExtension_secs = 5;
 
 let chickenImage;
@@ -172,16 +172,21 @@ function handleClick(e) {
         return;
     }
 
+    const mouse = {
+        x: e.offsetX,
+        y: e.offsetY
+    };
+
     for (let i = 0; i < bonuses.length; ++i) {
         const bonus = bonuses[i];
-        if (testHit(e, bonus, bonusRadius)) {
+        if (testHit(mouse, bonus, bonusRadius)) {
             bonuses = bonuses.filter(b => b !== bonus);
             gameOverTime_msecs += bonusExtension_secs * 1000;
             return;
         }
     }
 
-    if (testHit(e, chicken, chickenRadius)) {
+    if (testHit(mouse, chicken, chickenRadius)) {
         ++score;
         layEgg();
         moveChicken();
