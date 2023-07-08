@@ -85,9 +85,8 @@ function draw() {
 }
 
 function drawChicken(chicken) {
-    // Adjustments needed for the chicken to roughly fit in the hit target area
-    const imageWidth = 2 * chickenRadius * 1.8;
-    const imageHeight = 2 * chickenRadius * 1.3;
+    const imageWidth = 2 * chickenRadius;
+    const imageHeight = 2 * chickenRadius;
 
     ctx.drawImage(chickenImage,
         chicken.x - imageWidth / 2,
