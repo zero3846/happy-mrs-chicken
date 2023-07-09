@@ -33,7 +33,7 @@ function init() {
         window.addEventListener('load', () => {
             navigator.serviceWorker
                 .register(pathContext + 'service-worker.js', {
-                    scope: './'
+                    scope: pathContext
                 })
                 .then(reg => console.log('Service Worker: Registered'))
                 .catch(err => console.log(`Service Worker: Error: ${err}`));
