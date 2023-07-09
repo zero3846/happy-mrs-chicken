@@ -3,7 +3,7 @@ let ctx;
 
 const initGameOverTime_secs = 15;
 const chickenRadius = 80;
-const eggRadius = 30;
+const eggRadius = 15;
 const bonusRadius = 30;
 const bonusFreq_secs = 5;
 const bonusExpire_secs = 2;
