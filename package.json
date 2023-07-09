@@ -1,0 +1,26 @@
+{
+  "name": "happy-mrs-chicken",
+  "version": "1.0.0",
+  "description": "Happy Mrs Chicken game from Peppa Pig",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "icons": "npx pwa-asset-generator images/chicken.png images/icons --favicon --index index.html --manifest manifest.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zero3846/happy-mrs-chicken.git"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "Juan-Miguel Borromeo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zero3846/happy-mrs-chicken/issues"
+  },
+  "homepage": "https://github.com/zero3846/happy-mrs-chicken#readme",
+  "devDependencies": {
+    "pwa-asset-generator": "^6.3.1"
+  }
+}
