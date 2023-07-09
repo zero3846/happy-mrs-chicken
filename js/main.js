@@ -28,7 +28,9 @@ function init() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker
-                .register('../service-worker.js')
+                .register('../service-worker.js', {
+                    scope: './'
+                })
                 .then(reg => console.log('Service Worker: Registered'))
                 .catch(err => console.log(`Service Worker: Error: ${err}`));
         });

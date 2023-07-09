@@ -42,7 +42,7 @@ self.addEventListener('fetch', e => {
                 return res;
             })
             .catch(err => {
-                caches
+                return caches
                     .match(e.request)
                     .then(res => res)
             })
