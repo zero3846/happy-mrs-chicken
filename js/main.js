@@ -25,10 +25,14 @@ let eggs = [];
 let bonuses = [];
 
 function init() {
+    let pathContext = window.location.pathname;
+    pathContext = pathContext.substring(0, pathContext.lastIndexOf('/') + 1);
+    console.log(window.location.href, pathContext);
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker
-                .register('./service-worker.js', {
+                .register(pathContext + 'service-worker.js', {
                     scope: './'
                 })
                 .then(reg => console.log('Service Worker: Registered'))
