@@ -1,7 +1,7 @@
 {
   "name": "Happy Mrs Chicken",
   "short_name": "Happy Mrs Chicken",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "icons": [
     {
       "src": "images/icons/manifest-icon-192.maskable.png",
