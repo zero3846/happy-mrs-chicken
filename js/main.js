@@ -55,7 +55,9 @@ function init() {
     chickenImage.src = "images/chicken.png";
 
     const newGameButton = document.querySelector('#new-game-button');
-    newGameButton.addEventListener('click', newGameButtonClicked);
+    newGameButton.addEventListener('click', startGame);
+
+    window.requestAnimationFrame(animate);
 }
 
 function animate(now) {
@@ -64,8 +66,31 @@ function animate(now) {
     window.requestAnimationFrame(animate);
 }
 
-function start() {
+function startGame() {
+    const newGamePanel = document.querySelector('#new-game');
+    newGamePanel.style.visibility = 'hidden';
+
+    state = 'game-started';
+    score = 0;
+    startTime_msecs = Date.now();
+    gameOverTime_msecs = initGameOverTime_secs * 1000;
+    eggs = [];
+    bonuses = [];
+    nextBonus_msecs = startTime_msecs + bonusFreq_secs * 1000;
+    moveChicken();
+
     window.requestAnimationFrame(animate);
+}
+
+function update() {
+    const elapsed_msecs = Date.now() - startTime_msecs;
+    timeLeft_secs = (gameOverTime_msecs - elapsed_msecs) / 1000;
+
+    updateBonuses(elapsed_msecs);
+
+    if (elapsed_msecs >= gameOverTime_msecs) {
+        state = 'game-over';
+    }
 }
 
 function draw() {
@@ -88,7 +113,8 @@ function draw() {
         const scoreElem = document.querySelector('#score');
         scoreElem.innerText = `${score}`;
     } else if (state === 'game-over') {
-        const message = score > 0 ? `You have scored ${score}!`
+        const message = score > 0
+            ? `You have scored ${score}!`
             : "You didn't score anything!";
 
         const messageElem = document.querySelector('#new-game h1');
@@ -170,23 +196,6 @@ function drawBonus(bonus) {
     ctx.stroke();
 }
 
-function update() {
-    if (state === 'game-started') {
-        const elapsed_msecs = Date.now() - startTime_msecs;
-        timeLeft_secs = (gameOverTime_msecs - elapsed_msecs) / 1000;
-
-        updateBonuses(elapsed_msecs);
-
-        if (elapsed_msecs >= gameOverTime_msecs) {
-            state = 'game-over';
-        }
-    } else if (state === 'new-game') {
-        
-    } else if (state === 'game-over') {
-
-    }
-}
-
 function handleClick(e) {
     if (state !== 'game-started') {
         return;
@@ -217,20 +226,6 @@ function testHit(mouse, object, radius) {
     const dx = object.x - mouse.x;
     const dy = object.y - mouse.y;
     return dx * dx + dy * dy < radius * radius;
-}
-
-function newGameButtonClicked(e) {
-    const newGamePanel = document.querySelector('#new-game');
-    newGamePanel.style.visibility = 'hidden';
-
-    state = 'game-started';
-    score = 0;
-    startTime_msecs = Date.now();
-    gameOverTime_msecs = initGameOverTime_secs * 1000;
-    eggs = [];
-    bonuses = [];
-    nextBonus_msecs = startTime_msecs + bonusFreq_secs * 1000;
-    moveChicken();
 }
 
 function moveChicken() {
@@ -264,4 +259,3 @@ function random(min, max) {
 }
 
 init();
-start();
