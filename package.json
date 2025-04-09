@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/zero3846/happy-mrs-chicken#readme",
   "devDependencies": {
-    "pwa-asset-generator": "^6.3.1"
+    "pwa-asset-generator": "^8.0.4"
   }
 }
